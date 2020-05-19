@@ -1,0 +1,27 @@
+fileFormatVersion: 2
+guid: 9d68151033656a34e835fe48530d518e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - HeroeMago: {fileID: 5406340137186263273, guid: c2b1afd19f300cd4b85a4b5ecf71c8a1,
+      type: 3}
+  - HeroeArquero: {fileID: 4451031594786377529, guid: ccb27f286ed89a24fa1bea3f850d3463,
+      type: 3}
+  - HeroeClerigo: {fileID: 4455471203275625993, guid: a5bdeba623d864b4e82e37c4fcf49cd9,
+      type: 3}
+  - HeroeLancero: {fileID: 3018952987658927349, guid: b07e452ef5d42b448b77d936799a4818,
+      type: 3}
+  - EnemigoMago: {fileID: 4149822689859501517, guid: a7629fd5bb50deb40a44bac3f6a22dd5,
+      type: 3}
+  - EnemigoLancero: {fileID: 8919689279058699897, guid: 1969a5dd423b653468d53c819445f109,
+      type: 3}
+  - EnemigoClerigo: {fileID: 142723968248968153, guid: 18ce0d5d7a8fdff40a477f543e8a4951,
+      type: 3}
+  - EnemigoArquero: {fileID: 3776590305502881649, guid: 63f31cb9f7d9f9d49a3de113d38e7276,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

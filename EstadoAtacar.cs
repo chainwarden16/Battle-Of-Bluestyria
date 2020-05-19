@@ -108,14 +108,12 @@ public class EstadoAtacar : Estado
             
 
             GameManager.EliminarPopUp(popUp);
-            
+
 
             //gm.EsperarSegundos(2);
 
 
-            Color colo = atacante.GetComponent<SpriteRenderer>().color;
-
-            colo.a = 0.4f;
+            Color colo = new Color(0.3f, 0.3f, 0.3f, 0.9f);
 
             atacante.GetComponent<SpriteRenderer>().color = colo;
 

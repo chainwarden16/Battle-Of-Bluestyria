@@ -1031,11 +1031,11 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            x = Mathf.FloorToInt(rangoTotal / 2)-3;
+            x = Mathf.FloorToInt(rangoTotal / 2)-1;
 
-            y = Mathf.FloorToInt(rangoTotal / 2)-3;
+            y = Mathf.FloorToInt(rangoTotal / 2)-1;
 
-            distan = Mathf.FloorToInt(rangoTotal / 2)-3;
+            distan = Mathf.FloorToInt(rangoTotal / 2)-1;
         }
 
         
@@ -1089,11 +1089,11 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            x = Mathf.FloorToInt(rangoTotal / 2) - 4;
+            x = Mathf.FloorToInt(rangoTotal / 2) - 3;
 
-            y = Mathf.FloorToInt(rangoTotal / 2) - 4;
+            y = Mathf.FloorToInt(rangoTotal / 2) - 3;
 
-            distan = Mathf.FloorToInt(rangoTotal / 2) - 4;
+            distan = Mathf.FloorToInt(rangoTotal / 2) - 3;
         }
 
         for (int i = 0; i <= rangoTotal; i++)

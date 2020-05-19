@@ -711,7 +711,8 @@ public class EstadoTurnoEnemigo : Estado
                     {
                         if (unidadAliada != gob)
                         {
-                            if (rangosPosicionesAccionesCPU[17].Contains(unidadAliada.transform.position) && !unidadAliada.GetComponent<Unidad>().GetEstaSiendoEscudado().Item1 && unidadAliada.GetComponent<Clase>().GetTipoClase() != 2)
+                            if (rangosPosicionesAccionesCPU[17].Contains(unidadAliada.transform.position) && !unidadAliada.GetComponent<Unidad>().GetEstaSiendoEscudado().Item1 && 
+                                unidadAliada.GetComponent<Clase>().GetTipoClase() != 2 && claseUnidad.GetPSAct() > claseUnidad.GetHabilidades().Where(n => n.GetID() == 17).First().GetCoste())
                             { //si la unidad está dentro del rango de la habilidad, no tiene a alguien que la escude y no es un lancero
 
                                 //ahora se verifica si hay enemigos cerca
@@ -2668,6 +2669,8 @@ public class EstadoTurnoEnemigo : Estado
 
             float distanciaEntreCasillasMayor = 0.0f;
 
+            Clase claseUnidadEnemiga = atacante.GetComponent<Clase>();
+
             //se guardan las posiciones a las que puede moverse
 
             movimientosCPU = GameManager.PosicionesPosiblesUnidad(atacante);
@@ -2698,13 +2701,26 @@ public class EstadoTurnoEnemigo : Estado
                 {
                     if (posicionObjetivo == posAtaque) //se mira si el enemigo está dentro de esta. Si lo está...
                     {
-                        distanciaEntreCasillas = (posAtaque - pos).sqrMagnitude; //se calcula la distancia
+                        distanciaEntreCasillas = (posAtaque - pos).magnitude; //se calcula la distancia
 
-                        if (distanciaEntreCasillas > distanciaEntreCasillasMayor) //si la distancia actual es mayor que la que habia guardada
+                        if(hab == null)
+                        {
+                            if (distanciaEntreCasillas > distanciaEntreCasillasMayor && distanciaEntreCasillas <= claseUnidadEnemiga.GetArma().GetRango()) //si la distancia actual es mayor que la que habia guardada
+                            {
+                                distanciaEntreCasillasMayor = distanciaEntreCasillas; //se actualiza el valor y se guarda la posicion a la que se puede mover (no la de ataque)
+                                posicionResultado = new Vector3(pos.x, pos.y, pos.z);
+                            }
+                        }
+                        else
+                        {
+                            if (distanciaEntreCasillas > distanciaEntreCasillasMayor && distanciaEntreCasillas <= hab.GetRango()) //si la distancia actual es mayor que la que habia guardada
                         {
                             distanciaEntreCasillasMayor = distanciaEntreCasillas; //se actualiza el valor y se guarda la posicion a la que se puede mover (no la de ataque)
                             posicionResultado = new Vector3(pos.x, pos.y, pos.z);
                         }
+                        }
+
+                        
                     }
                 }
 

@@ -23,10 +23,12 @@ public class EstadoVictoria : Estado
 
     private GameObject fadeIn;
 
+    private GameObject barraTeclas;
+
     private static bool fanfarriaVictoria = false;
 
 
-    public EstadoVictoria(CombatePorTurnos com) : base(com)
+    public EstadoVictoria()
     {
 
     }
@@ -40,6 +42,7 @@ public class EstadoVictoria : Estado
             fadeIn = GameObject.Find("FadeIn");
             camara = GameObject.Find("Main Camera");
             objetoVictoria = GameObject.Find("Victoria-Batalla");
+            barraTeclas = GameObject.Find("Barra-Teclas");
             unidadesVivas = GameObject.FindGameObjectsWithTag("Player").ToList();
             tituloVictoria = objetoVictoria.GetComponent<SpriteRenderer>();
             foreach (GameObject heroe in unidadesVivas)
@@ -51,7 +54,7 @@ public class EstadoVictoria : Estado
             }
 
             TropaEscogida.SetTropaViva(integerUnidadesVivas);
-
+            barraTeclas.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
             tituloVictoria.sprite = Resources.Load<Sprite>("Sprites/Menu/Victoria-Batalla");
             tituloVictoria.transform.position = new Vector3(camara.transform.position.x, camara.transform.position.y + 4, 0f);
             Color col = new Color(0, 0, 0, 0.5f);

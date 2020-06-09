@@ -5,11 +5,9 @@ using UnityEngine;
 public abstract class Estado
 {
 
-    protected CombatePorTurnos combatePorTurnos;
-
-    public Estado(CombatePorTurnos turnos)
+    public Estado()
     {
-        combatePorTurnos = turnos;
+
     }
 
     public virtual IEnumerator StartState()
@@ -19,11 +17,5 @@ public abstract class Estado
 
     }
 
-    
-
-    public CombatePorTurnos GetCombatePorTurnos()
-    {
-        return combatePorTurnos;
-    }
 
 }

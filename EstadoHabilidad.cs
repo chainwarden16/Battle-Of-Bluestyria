@@ -27,7 +27,23 @@ public class EstadoHabilidad : Estado
 
     private static Habilidad habilidadElegida;
 
-    public EstadoHabilidad(CombatePorTurnos comba) : base(comba)
+    //== Para cancelar la acción y volver al menú de acciones
+
+    private GameObject botonAtacar;
+
+    private GameObject botonDefender;
+
+    private GameObject botonHabilidad;
+
+    private GameObject botonObjetos;
+
+    private GameObject unidadAMover;
+
+    private GameObject cursorMenu;
+
+    private GameObject camara;
+
+    public EstadoHabilidad()
     {
 
     }
@@ -53,6 +69,22 @@ public class EstadoHabilidad : Estado
             atacante = EstadoEsperar.GetUnidadSeleccionada();
 
             habilidades = atacante.GetComponent<Clase>().GetHabilidades();
+
+            //====
+
+            cursorMenu = GameObject.Find("Flecha-Menu-Unidad");
+
+            botonAtacar = GameObject.Find("Boton-Atacar");
+
+            botonDefender = GameObject.Find("Boton-Habilidad");
+
+            botonHabilidad = GameObject.Find("Boton-Defender");
+
+            botonObjetos = GameObject.Find("Boton-Objetos");
+
+            unidadAMover = EstadoEsperar.GetUnidadSeleccionada();
+
+            camara = GameObject.Find("Main Camera");
 
             reseteado = true;
 
@@ -99,20 +131,23 @@ public class EstadoHabilidad : Estado
             }
 
 
-            maquina.SetEstado(new EstadoElegirObjetivoHabilidad(combatePorTurnos));
+            maquina.SetEstado(new EstadoElegirObjetivoHabilidad());
             reseteado = false;
             yield return new WaitForSeconds(0.01f);
 
         }
         else if (Input.GetKeyUp(KeyCode.X))
         {
-            GameManager.MoverUnidad(atacante, EstadoMover.GetPosicionOriginal());
+            //GameManager.MoverUnidad(atacante, EstadoMover.GetPosicionOriginal());
             GameManager.BorrarCasillas();
-            GameManager.SoltarUnidad(atacante);
+            //GameManager.SoltarUnidad(atacante);
             CerrarMenuHabilidades();
+            cursor.transform.position = atacante.transform.position;
+            camara.transform.position = atacante.transform.position;
             atacante = null;
-            EstadoEsperar.SetUnidadSeleccionada(null);
-            maquina.SetEstado(new EstadoEsperar(combatePorTurnos));
+            //EstadoEsperar.SetUnidadSeleccionada(null);
+            InvocarMenuAcciones();
+            maquina.SetEstado(new EstadoElegirAccion());
             reseteado = false;
             yield return new WaitForSeconds(0.01f);
 
@@ -161,16 +196,14 @@ public class EstadoHabilidad : Estado
 
     }
 
-    /*
-     * 
-     * AnimationClip GetClipByIndex(int index)
-     {
-         string[] ClipNames = { "StepForward", "StepBackward", "ShortThrow", "LongThrow", "BackwardThrow", "SoftThrow", "Bull", "Hurt" };
-         Animation animation = GetComponent<Animation>();
-         return animation[ClipNames[index]].clip;
-     }
-     * 
-     * */
+    private void InvocarMenuAcciones()
+    {
+        cursorMenu.transform.position = new Vector3(unidadAMover.transform.position.x + 0.8f, unidadAMover.transform.position.y, 0f);
+        botonAtacar.transform.position = new Vector3(cursorMenu.transform.position.x + 2.3f, cursorMenu.transform.position.y, 0f);
+        botonHabilidad.transform.position = new Vector3(botonAtacar.transform.position.x, botonAtacar.transform.position.y - 1f, 0f);
+        botonDefender.transform.position = new Vector3(botonHabilidad.transform.position.x, botonHabilidad.transform.position.y - 1f, 0f);
+        botonObjetos.transform.position = new Vector3(botonDefender.transform.position.x, botonDefender.transform.position.y - 1f, 0f);
+    }
 
 
 }

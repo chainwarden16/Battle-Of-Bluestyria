@@ -44,7 +44,7 @@ public class EstadoElegirAccion : Estado
 
     #region Constructor
 
-    public EstadoElegirAccion(CombatePorTurnos comba) : base(comba)
+    public EstadoElegirAccion()
     {
 
     }
@@ -114,7 +114,7 @@ public class EstadoElegirAccion : Estado
             EstadoEsperar.SetUnidadSeleccionada(null);
             GameManager.BorrarCasillas();
             
-            maquinaEstados.SetEstado(new EstadoEsperar(combatePorTurnos));
+            maquinaEstados.SetEstado(new EstadoEsperar());
             reseteado = false;
             yield return new WaitForSeconds(0.1f);
 
@@ -131,7 +131,7 @@ public class EstadoElegirAccion : Estado
                 GameManager.PosicionesPosiblesAtacarUnidad(unidadAMover);
                 CerrarMenuAcciones();
                 reseteado = false;
-                maquinaEstados.SetEstado(new EstadoAtacar(combatePorTurnos));
+                maquinaEstados.SetEstado(new EstadoAtacar());
                 yield return new WaitForSeconds(0.1f);
                 
 
@@ -144,7 +144,7 @@ public class EstadoElegirAccion : Estado
                 CerrarMenuAcciones();
                 reseteado = false;
                 unidadAMover.GetComponent<Unidad>().SetEstaCaminando(false, animator);
-                maquinaEstados.SetEstado(new EstadoDefender(combatePorTurnos));
+                maquinaEstados.SetEstado(new EstadoDefender());
                 yield return new WaitForSeconds(0.1f);
                 
 
@@ -156,7 +156,7 @@ public class EstadoElegirAccion : Estado
                 
                 reseteado = false;
                 
-                maquinaEstados.SetEstado(new EstadoHabilidad(combatePorTurnos));
+                maquinaEstados.SetEstado(new EstadoHabilidad());
                 yield return new WaitForSeconds(0.1f);
 
 
@@ -170,7 +170,7 @@ public class EstadoElegirAccion : Estado
 
                     reseteado = false;
 
-                    maquinaEstados.SetEstado(new EstadoElegirConsumible(combatePorTurnos));
+                    maquinaEstados.SetEstado(new EstadoElegirConsumible());
                     yield return new WaitForSeconds(0.1f);
                 }
                 else //si no se tienen consumibles
@@ -178,7 +178,7 @@ public class EstadoElegirAccion : Estado
                     CerrarMenuAcciones();
                     unidadAMover.GetComponent<Unidad>().SetEstaCaminando(false, animator);
                     gm.MostrarMensajePerdidaTurno("No te quedan objetos.", unidadAMover);
-                    maquinaEstados.SetEstado(new EstadoAccionNoPermitida(combatePorTurnos));
+                    maquinaEstados.SetEstado(new EstadoAccionNoPermitida());
                     yield return new WaitForSeconds(0.1f);
                 }
 

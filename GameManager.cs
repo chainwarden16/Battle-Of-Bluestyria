@@ -35,8 +35,6 @@ public class GameManager : MonoBehaviour
 
     private static MaquinaDeEstados maquinaDeEstados = IniciacionCombate.GetMaquinaDeEstados();
 
-    private static CombatePorTurnos combatePorTurnos = IniciacionCombate.GetCombateForTurnos();
-
     private List<int> tropaJugador;
 
     private List<int> hordaEnemigo;
@@ -178,11 +176,49 @@ public class GameManager : MonoBehaviour
 
     public void InicializarCombate()
     {
+        popUp = GameObject.Find("NumeroPopUp");
         objetoAnimaciones = GameObject.Find("AnimacionesCombate");
         animacionesAtaques = objetoAnimaciones.GetComponent<Animator>();
         audioSource = GameObject.Find("SFX").GetComponent<AudioSource>();
         camara = GameObject.Find("Main Camera");
+        objetoAnimaciones = GameObject.Find("AnimacionesCombate");
         tropaJugador = TropaEscogida.GetTropa();
+
+        //Aquí irían las excepciones, pero estas son costosas y detienen la ejecuión del juego, así que las trataré de otra forma
+
+        if (tropaJugador.Count == 0) //si no hubiera heroes en la lista, se rellena con valores aleatorios controlados
+        {
+            int conta = 0;
+            while(conta < 4){
+                tropaJugador.Add(rng.Next(1, 5));
+                conta++;
+            }
+        }
+
+        else if(tropaJugador.Count > 4) //si hay más de cuatro, se recorta hasta que sólo queden cuatro héroes
+        {
+            tropaJugador.GetRange(0, 4);
+        }
+
+        for (int numero = 0; numero< tropaJugador.Count; numero++) //si el héroe tiene un valor distinto del esperado, se vuelve a introducir dentro de los valores controlados
+        {
+            if(tropaJugador[numero] < 0 || tropaJugador[numero] > 4)
+            {
+                tropaJugador[numero] = rng.Next(1, 5);
+            }
+        }
+
+        
+
+        List<int> armJug = TropaEscogida.GetArmasJugador();
+
+        for (int num=0; num < armJug.Count; num++) //se comprueba que las armas sean o las ofensivas o las defensivas
+        {
+            if (armJug[num] < 0 && armJug[num] > 1)
+            {
+                armJug[num] = rng.Next(0, 2);
+            }
+        }
 
         horda = new AlgoritmoCreacionHordas(rng, tropaJugador, null);
 
@@ -214,6 +250,8 @@ public class GameManager : MonoBehaviour
 
         hordaEnemigo = TropaEscogida.GetHordaEnemiga();
 
+        numeroActualGeneraciones = 0;
+
         armasHorda = new AlgoritmoCreacionHordas(rng, tropaJugador, hordaEnemigo);
 
         while (armasHorda.GetFitnessMejorSolucion() < mejorValorFitnessPosible && numeroActualGeneraciones <= numeroMaximoGeneraciones)
@@ -237,7 +275,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private void CrearConsumibles()
+    public void CrearConsumibles()
     {
 
         Consumible pocion = creadorConsumibles.CrearPocion();
@@ -585,10 +623,10 @@ public class GameManager : MonoBehaviour
 
         unColorOpacity.a = 0f;
 
-        while(deltaMuerte > 0f)
+        while (deltaMuerte > 0f)
         {
             unidad.GetComponent<SpriteRenderer>().color = Color.Lerp(unColor, unColorOpacity, deltaMuerte);
-            deltaMuerte -= Time.deltaTime/temporizadorMuerte;
+            deltaMuerte -= Time.deltaTime / temporizadorMuerte;
         }
 
 
@@ -771,11 +809,12 @@ public class GameManager : MonoBehaviour
 
         bool fueraDeLimite = false;
 
-        if(personaje.transform.position.y < 1.5 && lugar.y > 2.5 && (personaje.transform.position.x >= 0.5 || personaje.transform.position.x <= -2.5))
+        if (personaje.transform.position.y < 1.5 && lugar.y > 2.5 && (personaje.transform.position.x >= 0.5 || personaje.transform.position.x <= -2.5))
         {
             fueraDeLimite = true;
 
-        }else if (personaje.transform.position.y < 2.5 && lugar.y > 1.5 && (personaje.transform.position.x >= 0.5 || personaje.transform.position.x <= -2.5))
+        }
+        else if (personaje.transform.position.y < 2.5 && lugar.y > 1.5 && (personaje.transform.position.x >= 0.5 || personaje.transform.position.x <= -2.5))
         {
             fueraDeLimite = true;
         }
@@ -1018,8 +1057,8 @@ public class GameManager : MonoBehaviour
 
         int x, y, distan;
 
-        
-        if(clase.GetTipoClase() != 2 && clase.GetTipoClase() != 3)
+
+        if (clase.GetTipoClase() != 2 && clase.GetTipoClase() != 3)
         {
 
             x = Mathf.FloorToInt(rangoTotal / 2) - 2;
@@ -1031,14 +1070,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            x = Mathf.FloorToInt(rangoTotal / 2)-1;
+            x = Mathf.FloorToInt(rangoTotal / 2) - 1;
 
-            y = Mathf.FloorToInt(rangoTotal / 2)-1;
+            y = Mathf.FloorToInt(rangoTotal / 2) - 1;
 
-            distan = Mathf.FloorToInt(rangoTotal / 2)-1;
+            distan = Mathf.FloorToInt(rangoTotal / 2) - 1;
         }
 
-        
+
 
         for (int i = 0; i <= rangoTotal; i++)
         {
@@ -1086,14 +1125,22 @@ public class GameManager : MonoBehaviour
 
             distan = Mathf.FloorToInt(rangoTotal / 2) - 5;
 
-        }
-        else
+        }else if (clase.GetTipoClase() == 2 || clase.GetTipoClase() == 1)
         {
             x = Mathf.FloorToInt(rangoTotal / 2) - 3;
 
             y = Mathf.FloorToInt(rangoTotal / 2) - 3;
 
             distan = Mathf.FloorToInt(rangoTotal / 2) - 3;
+        }
+      
+        else
+        {
+            x = Mathf.FloorToInt(rangoTotal / 2) - 2;
+
+            y = Mathf.FloorToInt(rangoTotal / 2) - 2;
+
+            distan = Mathf.FloorToInt(rangoTotal / 2) - 2;
         }
 
         for (int i = 0; i <= rangoTotal; i++)
@@ -1132,24 +1179,15 @@ public class GameManager : MonoBehaviour
 
         int x, y, distan;
 
-        if (clase.GetTipoClase() != 2)
-        {
 
-            x = Mathf.FloorToInt(rangoTotal / 2) - 2;
+        x = Mathf.FloorToInt(rangoTotal / 2) - 2;
 
-            y = Mathf.FloorToInt(rangoTotal / 2) - 2;
+        y = Mathf.FloorToInt(rangoTotal / 2) - 2;
 
-            distan = Mathf.FloorToInt(rangoTotal / 2) - 2;
+        distan = Mathf.FloorToInt(rangoTotal / 2) - 2;
 
-        }
-        else
-        {
-            x = Mathf.FloorToInt(rangoTotal / 2)-3;
 
-            y = Mathf.FloorToInt(rangoTotal / 2)-3;
 
-            distan = Mathf.FloorToInt(rangoTotal / 2)-3;
-        }
 
         for (int i = 0; i <= rangoTotal; i++)
         {
@@ -1319,6 +1357,7 @@ public class GameManager : MonoBehaviour
 
         bool tieneBuffDefensa = false;
         List<int> estados = atacante.GetComponent<Unidad>().GetBuffs();
+        List<int> estadosAtacado = atacado.GetComponent<Unidad>().GetBuffs();
         bool tieneBuffAtaque = false;
         bool tieneNerfAtaque = false;
         bool tieneNerfDefensa = false;
@@ -1336,20 +1375,20 @@ public class GameManager : MonoBehaviour
         }
 
 
-        if (estados.Contains(0))
+        if (estadosAtacado.Contains(0))
         { // 0 es el buff de def
 
             tieneBuffDefensa = true;
 
         }
-        else if (estados.Contains(2)) //2 es el nerf de defensas
+        else if (estadosAtacado.Contains(2)) //2 es el nerf de defensas
 
         {
             tieneNerfDefensa = true;
         }
 
 
-        int buffDefensa = defensa * 2 * System.Convert.ToInt32(tieneBuffDefensa);
+        int buffDefensa = (int)(defensa * 1.5) * System.Convert.ToInt32(tieneBuffDefensa);
 
 
 
@@ -1377,6 +1416,7 @@ public class GameManager : MonoBehaviour
         bool tieneBuffDefensa = false;
         int defensaArma = atacante.GetComponent<Clase>().GetArma().GetDefensas();
         List<int> estados = atacante.GetComponent<Unidad>().GetBuffs();
+        List<int> estadosAtacado = atacado.GetComponent<Unidad>().GetBuffs();
         bool tieneBuffAtaque = false;
         bool tieneNerfAtaque = false;
         bool tieneNerfDefensa = false;
@@ -1395,20 +1435,20 @@ public class GameManager : MonoBehaviour
         }
 
 
-        if (estados.Contains(0))
+        if (estadosAtacado.Contains(0))
         { // 0 es el buff de def
 
             tieneBuffDefensa = true;
 
         }
-        else if (estados.Contains(2)) //2 es el nerf de defensas
+        else if (estadosAtacado.Contains(2)) //2 es el nerf de defensas
 
         {
             tieneNerfDefensa = true;
         }
 
 
-        int buffDefensa = defensaM * 2 * System.Convert.ToInt32(tieneBuffDefensa);
+        int buffDefensa = (int)(defensaM * 1.5) * System.Convert.ToInt32(tieneBuffDefensa);
 
 
 
@@ -1440,7 +1480,7 @@ public class GameManager : MonoBehaviour
         int danioHabilidad = atacante.GetComponent<Clase>().GetHabilidades().Find(h => h == hab).GetDano();
         int defensa = atacado.GetComponent<Clase>().GetDefensa();
         int defensaArma = atacante.GetComponent<Clase>().GetArma().GetDefensas();
-
+        List<int> estadosAtacado = atacado.GetComponent<Unidad>().GetBuffs();
         bool tieneBuffDefensa = false;
         List<int> estados = atacante.GetComponent<Unidad>().GetBuffs();
         bool tieneBuffAtaque = false;
@@ -1460,20 +1500,20 @@ public class GameManager : MonoBehaviour
         }
 
 
-        if (estados.Contains(0))
+        if (estadosAtacado.Contains(0))
         { // 0 es el buff de def
 
             tieneBuffDefensa = true;
 
         }
-        else if (estados.Contains(2)) //2 es el nerf de defensas
+        else if (estadosAtacado.Contains(2)) //2 es el nerf de defensas
 
         {
             tieneNerfDefensa = true;
         }
 
 
-        int buffDefensa = defensa * 2 * System.Convert.ToInt32(tieneBuffDefensa);
+        int buffDefensa = (int)(defensa * 1.5) * System.Convert.ToInt32(tieneBuffDefensa);
 
 
 
@@ -1498,7 +1538,7 @@ public class GameManager : MonoBehaviour
 
     public static void CurarVidaUnidad(GameObject unidad, int cantidad)
     {
-        popUp = GameObject.Find("NumeroPopUp");
+
 
         int curacion = cantidad;
 
@@ -1539,7 +1579,7 @@ public class GameManager : MonoBehaviour
     public static void CausarDañoUnidad(GameObject unidad, int daño)
     {
 
-        popUp = GameObject.Find("NumeroPopUp");
+
 
 
 
@@ -1995,7 +2035,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public static void TerminarTurnoUnidad(GameObject unidad, CombatePorTurnos combatePorTurnos)
+    public static void TerminarTurnoUnidad(GameObject unidad)
     {
 
 
@@ -2007,11 +2047,9 @@ public class GameManager : MonoBehaviour
 
         unidad.GetComponent<SpriteRenderer>().color = colo;
 
-        BorrarCasillas();
-
         CerrarInterfazUnidad();
 
-        maquinaDeEstados.SetEstado(new EstadoEsperar(combatePorTurnos));
+        maquinaDeEstados.SetEstado(new EstadoEsperar());
 
     }
 
@@ -2103,7 +2141,7 @@ public class GameManager : MonoBehaviour
             colorArribaIzquierda = new Color32(14, 255, 0, 255);
             colorArribaDerecha = new Color32(21, 231, 0, 255);
             colorAbajoIzquierda = new Color32(24, 197, 0, 255);
-            colorAbajoDerecha = new Color32(12, 29, 0, 0);
+            colorAbajoDerecha = new Color32(12, 29, 0, 255);
 
         }
         else //cambia a rojo
@@ -2112,7 +2150,7 @@ public class GameManager : MonoBehaviour
             colorArribaIzquierda = new Color32(255, 14, 0, 255);
             colorArribaDerecha = new Color32(231, 21, 0, 255);
             colorAbajoIzquierda = new Color32(197, 24, 0, 255);
-            colorAbajoDerecha = new Color32(29, 12, 0, 0);
+            colorAbajoDerecha = new Color32(29, 12, 0, 255);
 
         }
 
@@ -2142,10 +2180,74 @@ public class GameManager : MonoBehaviour
 
     public static void ReproducirAnimacion(int ID, GameObject objetivo)
     {
-        objetoAnimaciones = GameObject.Find("AnimacionesCombate");
+
         objetoAnimaciones.transform.position = objetivo.transform.position;
         animacionesAtaques.SetInteger("ID", ID);
 
+    }
+
+    #endregion
+
+    #region Funciones para inicializar valores en los test unitarios
+
+    public static void SetCursor(GameObject curso)
+    {
+        cursor = curso;
+    }
+
+    public static void SetUnidadesAMantenerControladas(List<GameObject> lista)
+    {
+        unidadesAMantenerControladas = lista;
+    }
+
+    public static void SetAudioSource(AudioSource aud)
+    {
+        audioSource = aud;
+    }
+
+    public static void SetCelda(GameObject celda)
+    {
+        casilla = celda;
+    }
+
+    public static void SetAnimator(Animator ani)
+    {
+        animacionesAtaques = ani;
+    }
+
+    public static void SetMaquinaEstados(MaquinaDeEstados maq)
+    {
+        maquinaDeEstados = maq;
+    }
+
+    public static void SetObjetoAnimaciones(GameObject objec)
+    {
+        objetoAnimaciones = objec;
+    }
+
+    public static void SetAudioClipSFX(AudioClip audioC)
+    {
+        cursorSFX = audioC;
+    }
+
+    public static AudioClip GetAudioClipSFX()
+    {
+        return cursorSFX;
+    }
+
+    public static void SetPopUp(GameObject texto)
+    {
+        popUp = texto;
+    }
+
+    public static void SetGameManager(GameManager gm)
+    {
+        _instance = gm;
+    }
+
+    public void SetTropaJugador(List<int> tropa)
+    {
+        tropaJugador = tropa;
     }
 
     #endregion

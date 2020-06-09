@@ -5,7 +5,7 @@ using UnityEngine;
 public class AsignacionPropiedadesClases : MonoBehaviour
 {
 
-    private static List<string> posiblesNombres = new List<string>() { "Laur", "Frisken", "Noreh", "Irisir", "Hagaew", "Najore", "Lokceri", "Philak", "Rosemer", "Darekn", "Ostreit", "Ghoulef", "Hufderr", "Raral", "Wunaak", "Frestolag", "Feiranm", "Mosretieur" };
+    private static List<string> posiblesNombres = new List<string>() { "Laur", "Frisken", "Noreh", "Irisir", "Hagaew", "Najore", "Lokceri", "Philak", "Rosemer", "Darekn", "Ostreit", "Ghoulef", "Hufderr", "Raral", "Wunaak", "Frestolag", "Feiranm", "Mosretieur", "Maur", "Nere", "Miest", "Judal", "Desmir" };
 
     private static System.Random rng = new System.Random();
 

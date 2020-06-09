@@ -34,7 +34,7 @@ public class EstadoMover : Estado
     private AudioSource audioSource;
     private AudioClip cursorSFX;
 
-    public EstadoMover(CombatePorTurnos comba): base(comba)
+    public EstadoMover()
     {
 
     }
@@ -97,7 +97,7 @@ public class EstadoMover : Estado
 
             InvocarMenuAcciones();
             GameManager.BorrarCasillas();
-            maquinaDeEstados.SetEstado(new EstadoElegirAccion(combatePorTurnos));
+            maquinaDeEstados.SetEstado(new EstadoElegirAccion());
             seHaResteadoEstado = false;
             yield return new WaitForSeconds(0.01f);
 
@@ -121,7 +121,7 @@ public class EstadoMover : Estado
             unidadAMover = null;
             EstadoEsperar.SetUnidadSeleccionada(null);
             GameManager.BorrarCasillas();
-            maquinaDeEstados.SetEstado(new EstadoEsperar(combatePorTurnos));
+            maquinaDeEstados.SetEstado(new EstadoEsperar());
             seHaResteadoEstado = false;
             yield return new WaitForSeconds(0.01f);
 

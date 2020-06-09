@@ -17,13 +17,13 @@ public class EstadoInicio : Estado
         
         gameMan.InicializarCombate();
 
-        maquinaEstados.SetEstado(new EstadoEsperar(combatePorTurnos));
+        maquinaEstados.SetEstado(new EstadoEsperar());
 
         yield return new WaitForSeconds(0.1f);
 
     }
 
-    public EstadoInicio(CombatePorTurnos turnos) : base(turnos)
+    public EstadoInicio()
     {
 
     }

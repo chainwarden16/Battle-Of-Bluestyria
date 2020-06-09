@@ -10,7 +10,7 @@ public class EstadoDerrota : Estado
     float lele = 0f;
     float tiemp = 1f;
 
-    public EstadoDerrota(CombatePorTurnos com) : base(com)
+    public EstadoDerrota()
     {
 
     }

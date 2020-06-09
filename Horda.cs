@@ -8,7 +8,7 @@ public class Horda
     #region Declaracion de propiedades
     //Estos valores siempre se mantendrán igual en el resto del código, así que se colocarán como constantes. Además, si se quisiera cambiar en el futuro, sólo habría que editar un par de líneas y no todo el código
     private const int tamanoIndividuo = 8;
-    private const float porcentajePosibilidadesMutacion = 5f; //5%
+    private const float porcentajePosibilidadesMutacion = 4f; //4%
     private const float aumentoFitnessGenCorrecto = 100f;
 
     private List<int> hordaEnemiga;
@@ -26,12 +26,12 @@ public class Horda
     {
 
         hordaEnemiga = tropaEnemiga;
-        genesIndividuo = new List<int>() {}; //aunque podría haber menos de 8 individuos en la solución final, la lista puede tener, como máximo, 8 enemigos. Los espacios en blanco se marcarán con un 0 e la posición.
+        genesIndividuo = new List<int>() { }; //aunque podría haber menos de 8 individuos en la solución final, la lista puede tener, como máximo, 8 enemigos. Los espacios en blanco se marcarán con un 0 e la posición.
         numeroAleatorio = nAletorio;
         resultadoFitness = 0.0f;
         this.armasJugador = armasJugador;
- 
-        
+
+
     }
 
     #endregion
@@ -39,8 +39,8 @@ public class Horda
 
     public Horda MutacionDeGen(Horda individuo)
     {
-
-        //Se echará a suertes si existirá una mutación en el individuo. Si se produce mutación, se cambiara un gen aleatorio
+        List<int> listaMutada = new List<int>(individuo.getGenesIndividuo());
+        //Se echará a suertes si existirá una mutación en el individuo. Si se produce mutación, se cambiara un gen aleatorio siguiendo el método de Bit Flip en el caso de las armas
 
         int limite = Mathf.FloorToInt(numeroAleatorio.Next(0, 100)); //tendra un porcentaje de posibilidad de mutacion entre 100. El porcentaje se define más arriba, en la declaración de propiedades
 
@@ -49,13 +49,23 @@ public class Horda
 
             int indice = Mathf.FloorToInt(numeroAleatorio.Next(0, tamanoIndividuo));
 
-            if(hordaEnemiga == null)
+            if (hordaEnemiga == null) //si se va a generar el grupo de enemigos, el valor deberá cambiar entre 0 y 4
             {
-                individuo.genesIndividuo[indice] = numeroAleatorio.Next(0, 5);
+                listaMutada[indice] = numeroAleatorio.Next(0, 5);
+                individuo.setGenesIndividuo(listaMutada);
             }
-            else
+            else //si se trata de la generación de armas, se cambia el valor del bit
             {
-                individuo.genesIndividuo[indice] = numeroAleatorio.Next(0, 2);
+                if(listaMutada[indice] == 0)
+                {
+                    listaMutada[indice] = 1;
+                }
+                else
+                {
+                    listaMutada[indice] = 0;
+                }
+
+                individuo.setGenesIndividuo(listaMutada);
             }
 
         }
@@ -68,7 +78,10 @@ public class Horda
     public Horda CruceIndividuos(Horda padre, Horda madre)
     {
         Horda nuevoIndividuo;
-        //Al cruzar dos individuos, debe salir uno nuevo. Para ello, se tomarán dos listas de int y se creará una nueva, y de esta se tomarán índices aleatorios para añadirlos al nuevo individuo
+
+        int puntoCorte;
+
+        //Al cruzar dos individuos, debe salir uno nuevo. Para ello, se usará la técnica del único punto de corte.
 
         if (hordaEnemiga == null)
         {
@@ -79,29 +92,30 @@ public class Horda
             nuevoIndividuo = new Horda(numeroAleatorio, hordaEnemiga, armasJugador);
         }
 
+        /*Una vez se sabe qué se va a generar (enemigos o armas), se procede a elegir un punto de corte al azar. Todos los genes que estén situados antes de o en la misma posición elegida para el corte
+            pertenecerán al primer padre, y el resto serán del segundo padre
 
-        List<int> genesPadres = new List<int>() { };
+        */
 
-        genesPadres.AddRange(padre.genesIndividuo);
-        genesPadres.AddRange(madre.genesIndividuo);
+        puntoCorte = numeroAleatorio.Next(0, tamanoIndividuo);
 
-        int contador = 0;
-
-        int indice;
-
-        while (contador < tamanoIndividuo)
+        for (int contador = 0; contador < tamanoIndividuo; contador++)
         {
-            indice = numeroAleatorio.Next(0, genesPadres.Count);
-
-            nuevoIndividuo.genesIndividuo.Add(genesPadres[indice]);
-            contador++;
+            if (contador <= puntoCorte)
+            {
+                nuevoIndividuo.genesIndividuo.Add(padre.genesIndividuo[contador]);
+            }
+            else
+            {
+                nuevoIndividuo.genesIndividuo.Add(madre.genesIndividuo[contador]);
+            }
         }
 
         return nuevoIndividuo;
 
     }
 
-    public float DeterminarValorFitnessArmasHorda(List<int> armasJugador, List<int> hordaEnemigaEscogida)
+    public float DeterminarValorFitnessArmasHorda(List<int> armasJugador)
     {
 
         float fitness = 0.0f;
@@ -115,11 +129,11 @@ public class Horda
         for (int j = 0; j < armasJugador.Count; j++)
         {
 
-            if(armasJugador[j] == 0)
+            if (armasJugador[j] == 0)
             {
                 contadorArmas0++;
             }
-            else if(armasJugador[j]==1)
+            else if (armasJugador[j] == 1)
             {
                 contadorArmas1++;
             }
@@ -127,7 +141,7 @@ public class Horda
         }
 
 
-        for(int i = 0; i < copiaArmas.Count; i++)
+        for (int i = 0; i < copiaArmas.Count; i++)
         {
 
             switch (copiaArmas[i])
@@ -135,9 +149,9 @@ public class Horda
 
                 case 0:
 
-                    if(contadorArmas1 > contadorArmas0)
+                    if (contadorArmas1 > contadorArmas0)
                     {
-                        fitness += aumentoFitnessGenCorrecto;
+                        fitness += aumentoFitnessGenCorrecto; //Si han escogido más armas ofensivas que defensivas, se premia que el individuo tenga más armas defensivas
                     }
 
                     break;
@@ -146,7 +160,7 @@ public class Horda
 
                     if (contadorArmas1 <= contadorArmas0)
                     {
-                        fitness += aumentoFitnessGenCorrecto;
+                        fitness += aumentoFitnessGenCorrecto; //No obstante, si hay más armas defensivas que ofensivas en el arsenal del jugador, se premia que el individuo tenga más armas ofensivas
                     }
 
                     break;
@@ -287,7 +301,7 @@ public class Horda
         for (int inte = 0; inte < tamanoIndividuo; inte++)
         {
 
-            if(hordaEnemiga == null)
+            if (hordaEnemiga == null)
             {
                 gen = numeroAleatorio.Next(0, 5);
             }
@@ -312,12 +326,12 @@ public class Horda
 
             //esto sólo pasa en el caso en el que se esté creando las unidades. La generación de armas sí que puede devolver todo 0 (el arma básica, más ataque que defensa)
 
-            if(hordaEnemiga == null)
+            if (hordaEnemiga == null)
             {
                 genesIndividuo[0] = numeroAleatorio.Next(1, 5); //entre 1 inclusivo y 5 exclusivo, para evitar la posibilidad de que salga 0 de nuevo
                 genesIndividuo[1] = numeroAleatorio.Next(1, 5);
             }
-            
+
         }
     }
 

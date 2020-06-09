@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class EstadoUsarConsumible : Estado
 {
-    public EstadoUsarConsumible(CombatePorTurnos comba) : base(comba)
+    public EstadoUsarConsumible()
     {
 
     }
+
     private GameObject cursorHabilidad;
 
     private GameObject cursor;
@@ -43,6 +44,22 @@ public class EstadoUsarConsumible : Estado
 
     private AnimatorClipInfo[] info;
 
+    //=======
+
+    private GameObject botonAtacar;
+
+    private GameObject botonDefender;
+
+    private GameObject botonHabilidad;
+
+    private GameObject botonObjetos;
+
+    private GameObject unidadAMover;
+
+    private GameObject cursorMenu;
+
+    private GameObject camara;
+
     public override IEnumerator StartState()
     {
 
@@ -68,6 +85,22 @@ public class EstadoUsarConsumible : Estado
             animator = atacante.GetComponent<Animator>();
 
             popUp = GameObject.Find("NumeroPopUp");
+
+            //====
+
+            cursorMenu = GameObject.Find("Flecha-Menu-Unidad");
+
+            botonAtacar = GameObject.Find("Boton-Atacar");
+
+            botonDefender = GameObject.Find("Boton-Habilidad");
+
+            botonHabilidad = GameObject.Find("Boton-Defender");
+
+            botonObjetos = GameObject.Find("Boton-Objetos");
+
+            unidadAMover = EstadoEsperar.GetUnidadSeleccionada();
+
+            camara = GameObject.Find("Main Camera");
 
             reseteado = true;
         }
@@ -173,7 +206,8 @@ public class EstadoUsarConsumible : Estado
 
             GameManager.EliminarPopUp(popUp);
             atacante.GetComponent<Unidad>().SetEstaCaminando(false, animator);
-            GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
+            GameManager.BorrarCasillas();
+            GameManager.TerminarTurnoUnidad(atacante);
             GameManager.CerrarInterfazUnidad();
 
         }
@@ -216,15 +250,18 @@ public class EstadoUsarConsumible : Estado
         }
         CerrarMenuHabilidades();
         GameManager.BorrarCasillas();
-        GameManager.SoltarUnidad(atacante);
-        atacante.GetComponent<Unidad>().SetDireccionAMirar(EstadoMover.GetDireccionOriginal(), animator);
+        //GameManager.SoltarUnidad(atacante);
+        //atacante.GetComponent<Unidad>().SetDireccionAMirar(EstadoMover.GetDireccionOriginal(), animator);
         atacante.GetComponent<Unidad>().SetEstaAtacando(false, animator);
-        atacante.GetComponent<Unidad>().SetEstaCaminando(false, animator);
-        atacante.transform.position = EstadoMover.GetPosicionOriginal();
+        //atacante.GetComponent<Unidad>().SetEstaCaminando(false, animator);
+        //atacante.transform.position = EstadoMover.GetPosicionOriginal();
+        cursor.transform.position = atacante.transform.position;
+        camara.transform.position = atacante.transform.position;
         atacante = null;
         objetivo = null;
-        EstadoEsperar.SetUnidadSeleccionada(null);
-        maquina.SetEstado(new EstadoEsperar(combatePorTurnos));
+        //EstadoEsperar.SetUnidadSeleccionada(null);
+        InvocarMenuAcciones();
+        maquina.SetEstado(new EstadoElegirAccion());
 
 
     }
@@ -233,7 +270,14 @@ public class EstadoUsarConsumible : Estado
         objetivo = gob;
     }
 
+    private void InvocarMenuAcciones()
+    {
+        cursorMenu.transform.position = new Vector3(unidadAMover.transform.position.x + 0.8f, unidadAMover.transform.position.y, 0f);
+        botonAtacar.transform.position = new Vector3(cursorMenu.transform.position.x + 2.3f, cursorMenu.transform.position.y, 0f);
+        botonHabilidad.transform.position = new Vector3(botonAtacar.transform.position.x, botonAtacar.transform.position.y - 1f, 0f);
+        botonDefender.transform.position = new Vector3(botonHabilidad.transform.position.x, botonHabilidad.transform.position.y - 1f, 0f);
+        botonObjetos.transform.position = new Vector3(botonDefender.transform.position.x, botonDefender.transform.position.y - 1f, 0f);
+    }
 
-    
 
 }

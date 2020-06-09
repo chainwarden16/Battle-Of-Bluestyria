@@ -8,7 +8,7 @@ public class EstadoDefender : Estado
 
     private MaquinaDeEstados maquina;
 
-    public EstadoDefender()
+    public EstadoDefender(CombatePorTurnos combatePorTurnos): base(combatePorTurnos)
     {
 
 
@@ -21,10 +21,10 @@ public class EstadoDefender : Estado
         unidad = EstadoEsperar.GetUnidadSeleccionada();
         unidad.GetComponent<Unidad>().SetEstaDefendiendo(true);
         GameManager.BorrarCasillas();
-        GameManager.TerminarTurnoUnidad(unidad);
+        GameManager.TerminarTurnoUnidad(unidad, combatePorTurnos);
         GameManager.CerrarInterfazUnidad();
 
-        maquina.SetEstado(new EstadoEsperar());
+        maquina.SetEstado(new EstadoEsperar(combatePorTurnos));
 
 
 

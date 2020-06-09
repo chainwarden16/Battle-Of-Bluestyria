@@ -15,6 +15,8 @@ public class IniciacionCombate : MonoBehaviour
 
     private static MaquinaDeEstados maquinaEstados;
 
+    private static CombatePorTurnos combatePorTurnos;
+
     private static Estado estado;
 
     private bool haTerminadoElDegradado = false;
@@ -70,11 +72,13 @@ public class IniciacionCombate : MonoBehaviour
 
         camara = GameObject.Find("Main Camera");
 
+        combatePorTurnos = gameObject.AddComponent<CombatePorTurnos>();
+
         maquinaEstados = gameObject.AddComponent<MaquinaDeEstados>();
 
         barraTeclas = GameObject.Find("Barra-Teclas");
 
-        maquinaEstados.ComenzarCombate();
+        combatePorTurnos.ComenzarCombate();
 
         StartCoroutine(MostrarBatalla());
 
@@ -176,7 +180,7 @@ public class IniciacionCombate : MonoBehaviour
                     }
 
                     GameManager.BuffsYEstadosCambioDeTurno(unidadesJugador); //pasamos el turno al jugador tras comprobar los estados alterados y buffs actuales
-                    maquinaEstados.SetEstado(new EstadoTransicionTurnoJugador());
+                    maquinaEstados.SetEstado(new EstadoTransicionTurnoJugador(combatePorTurnos));
                     EstadoTurnoEnemigo.SetContadorUnidades(0); //se coloca a 0 para que el ciclo pueda comenzar de nuevo en el siguiente turno enemigo
                 }
                 else
@@ -271,7 +275,7 @@ public class IniciacionCombate : MonoBehaviour
             fondoTurno.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
             simbolosInferiores.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
             simbolosSuperiores.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-            maquinaEstados.SetEstado(new EstadoEsperar());
+            maquinaEstados.SetEstado(new EstadoEsperar(combatePorTurnos));
             tiempoAct = 0f;
             contadorOpacidad = 1f;
             prepararAnimacion = true;
@@ -339,7 +343,7 @@ public class IniciacionCombate : MonoBehaviour
             fondoTurnoE.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
             simbolosInferioresE.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
             simbolosSuperioresE.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-            maquinaEstados.SetEstado(new EstadoTurnoEnemigo());
+            maquinaEstados.SetEstado(new EstadoTurnoEnemigo(combatePorTurnos));
             tiempoAct = 0f;
             contadorOpacidad = 1f;
             prepararAnimacion = true;
@@ -352,6 +356,11 @@ public class IniciacionCombate : MonoBehaviour
     {
 
         return maquinaEstados;
+    }
+
+    public static CombatePorTurnos GetCombateForTurnos()
+    {
+        return combatePorTurnos;
     }
 
     public static void SetEstado(Estado estadoNuevo)

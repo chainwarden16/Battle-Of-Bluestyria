@@ -55,7 +55,7 @@ public class AlgoritmoCreacionHordas
     public void crearGeneracionSiguiente()
     {
         Horda hijo;
-        Horda mejorAnteriorGeneracion;
+
         float fitnessIndividuoActual;
 
         //Se comprueba si se va a generar las clases de los enemigos o sus armas
@@ -63,29 +63,16 @@ public class AlgoritmoCreacionHordas
         if (hordaEnemiga == null)
         {
             hijo = new Horda(numAleatorio, null, null);
-            mejorAnteriorGeneracion = new Horda(numAleatorio, null, null);
         }
         else
         {
             hijo = new Horda(numAleatorio, hordaEnemiga, TropaEscogida.GetArmasJugador());
-            mejorAnteriorGeneracion = new Horda(numAleatorio, hordaEnemiga, TropaEscogida.GetArmasJugador());
         }
-
-
-
 
 
         if (poblacionIndividuos.Count > 0)
         {
             List<Horda> generacion = new List<Horda>();
-
-            if (genesMejorSolucion.Count != 0)
-            {
-                mejorAnteriorGeneracion.setGenesIndividuo(genesMejorSolucion);
-                mejorAnteriorGeneracion.setResultadoFitness(fitnessMejorSolucion);
-                generacion.Add(mejorAnteriorGeneracion); //como se usa un modelo elitista, se introduce el mejor de la generación anterior para intentar mejorar la eficiencia del algoritmo
-            }
-
 
             for (int numeroIndividuo = 0; numeroIndividuo < poblacionIndividuos.Count; numeroIndividuo++) //se calcula el fitness total de la poblacion actual para la seleccion por torneo
             {
@@ -98,7 +85,7 @@ public class AlgoritmoCreacionHordas
                 }
                 else
                 {
-                    fitnessTotalPoblacion += poblacionIndividuos[numeroIndividuo].DeterminarValorFitnessArmasHorda(TropaEscogida.GetArmasJugador());
+                    fitnessTotalPoblacion += poblacionIndividuos[numeroIndividuo].DeterminarValorFitnessArmasHorda(TropaEscogida.GetArmasJugador(), hordaEnemiga);
                 }
 
 
@@ -134,7 +121,7 @@ public class AlgoritmoCreacionHordas
                 }
                 else
                 {
-                    fitnessIndividuoActual = hijoMutado.DeterminarValorFitnessArmasHorda(TropaEscogida.GetArmasJugador());
+                    fitnessIndividuoActual = hijoMutado.DeterminarValorFitnessArmasHorda(TropaEscogida.GetArmasJugador(), hordaEnemiga);
                 }
 
 
@@ -187,7 +174,7 @@ public class AlgoritmoCreacionHordas
                     }
                     else
                     {
-                        fitnessIndividuoActual = hordaNueva.DeterminarValorFitnessArmasHorda(TropaEscogida.GetArmasJugador());
+                        fitnessIndividuoActual = hordaNueva.DeterminarValorFitnessArmasHorda(TropaEscogida.GetArmasJugador(), hordaEnemiga);
                     }
 
                     if (fitnessIndividuoActual > fitnessMejorSolucion) //si resula que este individuo es una mejor solución que la que se guarda actualmente, se reemplazan tanto el valor del mejor fitness como los gens guardados
@@ -203,7 +190,7 @@ public class AlgoritmoCreacionHordas
 
             poblacionIndividuos = generacion; //se sutituye la antigua poblacion con la nueva
             peorFitnessEncontrado = 1000f; // se vuelve a colocar el peor fitness a un numero que no llegaría ninguna solución, para adaptarlo al peor fitness de la siguiente generación
-            fitnessTotalPoblacion = 0f; //se vuelve a 0, para reiniciar la cuenta del fitness global con el de la nueva generación
+            fitnessTotalPoblacion = 0f; //se vuelve a 0, para 
         }
     }
 
@@ -270,12 +257,32 @@ public class AlgoritmoCreacionHordas
         }
         else
         {
-            int padreAleatorio = numAleatorio.Next(0, poblacionIndividuos.Count); //si no hay ninguno que sea lo bastante bueno, se escoge un miembro aleatorio de la población original como padre
+            int padreAleatorio = numAleatorio.Next(0, poblacionIndividuos.Count); //si no hay ninguno que sea lo bastante bueno, se escoge un miembro aleatorio del grupo como padre
 
             progenitor = poblacionIndividuos[padreAleatorio];
         }
 
 
+
+        /*foreach (Horda individuo in poblacionIndividuos)
+        {
+
+            if (individuo.getResultadoFitness() >= minimoFitness)
+            {
+                progenitor = individuo;
+                break;
+            }   
+            
+        }*/
+
+        //necesitamos que haya un cruce sí o sí, así que si no se encuentra nada bueno, nos conformamos con uno cualquiera (como en la vida real)
+
+        /*if (progenitor == null)
+        {
+            int padreAleatorio = numAleatorio.Next(0, poblacionIndividuos.Count);
+
+            progenitor = poblacionIndividuos[padreAleatorio];
+        }*/
         return progenitor;
     }
 

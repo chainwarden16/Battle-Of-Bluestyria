@@ -44,7 +44,7 @@ public class EstadoElegirAccion : Estado
 
     #region Constructor
 
-    public EstadoElegirAccion()
+    public EstadoElegirAccion(CombatePorTurnos comba) : base(comba)
     {
 
     }
@@ -114,7 +114,7 @@ public class EstadoElegirAccion : Estado
             EstadoEsperar.SetUnidadSeleccionada(null);
             GameManager.BorrarCasillas();
             
-            maquinaEstados.SetEstado(new EstadoEsperar());
+            maquinaEstados.SetEstado(new EstadoEsperar(combatePorTurnos));
             reseteado = false;
             yield return new WaitForSeconds(0.1f);
 
@@ -122,7 +122,7 @@ public class EstadoElegirAccion : Estado
         else if (Input.GetKeyUp(KeyCode.C))
         {//confirmar accion
 
-            //TODO: VER QUE SE HACE SI NO HAY UNIDADES SOBRE LAS QUE SE PUEDA REALIZAR DICHA ACCION
+           
 
             if (posicionSelectorMenu == 0)
             {//atacar
@@ -131,12 +131,12 @@ public class EstadoElegirAccion : Estado
                 GameManager.PosicionesPosiblesAtacarUnidad(unidadAMover);
                 CerrarMenuAcciones();
                 reseteado = false;
-                maquinaEstados.SetEstado(new EstadoAtacar());
+                maquinaEstados.SetEstado(new EstadoAtacar(combatePorTurnos));
                 yield return new WaitForSeconds(0.1f);
                 
 
             }
-            else if (posicionSelectorMenu == 1) //defender
+            else if (posicionSelectorMenu == 1) //acabar turno
             {
 
                 GameManager.ReproducirSonido("Audio/Decision2");
@@ -144,7 +144,7 @@ public class EstadoElegirAccion : Estado
                 CerrarMenuAcciones();
                 reseteado = false;
                 unidadAMover.GetComponent<Unidad>().SetEstaCaminando(false, animator);
-                maquinaEstados.SetEstado(new EstadoDefender());
+                maquinaEstados.SetEstado(new EstadoDefender(combatePorTurnos));
                 yield return new WaitForSeconds(0.1f);
                 
 
@@ -156,7 +156,7 @@ public class EstadoElegirAccion : Estado
                 
                 reseteado = false;
                 
-                maquinaEstados.SetEstado(new EstadoHabilidad());
+                maquinaEstados.SetEstado(new EstadoHabilidad(combatePorTurnos));
                 yield return new WaitForSeconds(0.1f);
 
 
@@ -170,7 +170,7 @@ public class EstadoElegirAccion : Estado
 
                     reseteado = false;
 
-                    maquinaEstados.SetEstado(new EstadoElegirConsumible());
+                    maquinaEstados.SetEstado(new EstadoElegirConsumible(combatePorTurnos));
                     yield return new WaitForSeconds(0.1f);
                 }
                 else //si no se tienen consumibles
@@ -178,7 +178,7 @@ public class EstadoElegirAccion : Estado
                     CerrarMenuAcciones();
                     unidadAMover.GetComponent<Unidad>().SetEstaCaminando(false, animator);
                     gm.MostrarMensajePerdidaTurno("No te quedan objetos.", unidadAMover);
-                    maquinaEstados.SetEstado(new EstadoAccionNoPermitida());
+                    maquinaEstados.SetEstado(new EstadoAccionNoPermitida(combatePorTurnos));
                     yield return new WaitForSeconds(0.1f);
                 }
 

@@ -11,7 +11,7 @@ public class EstadoPerdidaTurno : Estado
     private AudioSource audioSource;
     private AudioClip cursorSFX;
 
-    public EstadoPerdidaTurno()
+    public EstadoPerdidaTurno(CombatePorTurnos comba) : base(comba)
     {
 
     }
@@ -34,7 +34,7 @@ public class EstadoPerdidaTurno : Estado
             atacante.GetComponent<Unidad>().SetEstaAtacando(false, animator);
             atacante.GetComponent<Unidad>().SetEstaCaminando(false, animator);
             GameManager.BorrarCasillas();
-            GameManager.TerminarTurnoUnidad(atacante);
+            GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
             yield return null;
         }
 

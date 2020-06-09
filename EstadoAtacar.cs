@@ -47,7 +47,7 @@ public class EstadoAtacar : Estado
     private GameObject cursorMenu;
 
     private GameObject camara;
-    public EstadoAtacar()
+    public EstadoAtacar(CombatePorTurnos combatePorTurnos): base(combatePorTurnos)
     {
 
     }
@@ -158,7 +158,7 @@ public class EstadoAtacar : Estado
 
             GameManager.CerrarInterfazUnidad();
 
-            maquina.SetEstado(new EstadoEsperar());
+            maquina.SetEstado(new EstadoEsperar(combatePorTurnos));
             yield return new WaitForSeconds(0.01f);
         }else if (Input.GetKeyUp(KeyCode.X)){ //cancelas la accion
 
@@ -172,7 +172,7 @@ public class EstadoAtacar : Estado
             atacante = null;
             objetivo = null;
             //EstadoEsperar.SetUnidadSeleccionada(null);
-            maquina.SetEstado(new EstadoElegirAccion());
+            maquina.SetEstado(new EstadoElegirAccion(combatePorTurnos));
 
             yield return new WaitForSeconds(0.01f);
 

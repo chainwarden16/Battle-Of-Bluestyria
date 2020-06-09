@@ -46,7 +46,7 @@ public class EstadoEsperar : Estado
 
     private GameManager gm = GameManager.InstanciarGameManager();
 
-    public EstadoEsperar()
+    public EstadoEsperar(CombatePorTurnos com) : base(com)
     {
 
     }
@@ -92,7 +92,7 @@ public class EstadoEsperar : Estado
                 GameManager.BuffsYEstadosCambioDeTurno(enemigos);
                 
 
-                maquina.SetEstado(new EstadoTransicionTurnoEnemigo());
+                maquina.SetEstado(new EstadoTransicionTurnoEnemigo(combatePorTurnos));
                 yield break;
 
 
@@ -102,7 +102,7 @@ public class EstadoEsperar : Estado
                 if (GameManager.GetSiCorrutinaHaAcabado())
                 {
                     gm.MostrarMensajePerdidaTurno("No te quedan unidades vivas...", camara);
-                    maquina.SetEstado(new EstadoDerrota());
+                    maquina.SetEstado(new EstadoDerrota(combatePorTurnos));
                     yield break;
                 }
                 
@@ -118,7 +118,7 @@ public class EstadoEsperar : Estado
             {
                 if (GameManager.GetSiCorrutinaHaAcabado())
                 {
-                    maquina.SetEstado(new EstadoVictoria());
+                    maquina.SetEstado(new EstadoVictoria(combatePorTurnos));
                 }
 
             }
@@ -148,7 +148,7 @@ public class EstadoEsperar : Estado
                         unidadSeleccionada = GameManager.SeleccionarUnidad(unidad.transform.position);
                         animator = unidadSeleccionada.GetComponent<Animator>();
                         unidadSeleccionada.GetComponent<Unidad>().SetEstaCaminando(true, animator);
-                        maquina.SetEstado(new EstadoMover());
+                        maquina.SetEstado(new EstadoMover(combatePorTurnos));
                         contadorUnidadesPorUsar = 0;
                         seHaReseteadoEstado = false;
                         yield break;

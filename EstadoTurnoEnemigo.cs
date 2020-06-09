@@ -74,7 +74,7 @@ public class EstadoTurnoEnemigo : Estado
 
 
 
-    public EstadoTurnoEnemigo()
+    public EstadoTurnoEnemigo(CombatePorTurnos com) : base(com)
     {
 
     }
@@ -2701,21 +2701,21 @@ public class EstadoTurnoEnemigo : Estado
                 {
                     if (posicionObjetivo == posAtaque) //se mira si el enemigo está dentro de esta. Si lo está...
                     {
-                        distanciaEntreCasillas = (posAtaque - pos).sqrMagnitude; //se calcula la distancia
+                        distanciaEntreCasillas = (posAtaque - pos).magnitude; //se calcula la distancia
 
                         if(hab == null)
                         {
-                            if (distanciaEntreCasillas*distanciaEntreCasillas > distanciaEntreCasillasMayor) //si la distancia actual es mayor que la que habia guardada
+                            if (distanciaEntreCasillas > distanciaEntreCasillasMayor && distanciaEntreCasillas <= claseUnidadEnemiga.GetArma().GetRango()) //si la distancia actual es mayor que la que habia guardada
                             {
-                                distanciaEntreCasillasMayor = distanciaEntreCasillas*distanciaEntreCasillas; //se actualiza el valor y se guarda la posicion a la que se puede mover (no la de ataque)
+                                distanciaEntreCasillasMayor = distanciaEntreCasillas; //se actualiza el valor y se guarda la posicion a la que se puede mover (no la de ataque)
                                 posicionResultado = new Vector3(pos.x, pos.y, pos.z);
                             }
                         }
                         else
                         {
-                            if (distanciaEntreCasillas * distanciaEntreCasillas > distanciaEntreCasillasMayor) //si la distancia actual es mayor que la que habia guardada
+                            if (distanciaEntreCasillas > distanciaEntreCasillasMayor && distanciaEntreCasillas <= hab.GetRango()) //si la distancia actual es mayor que la que habia guardada
                         {
-                            distanciaEntreCasillasMayor = distanciaEntreCasillas*distanciaEntreCasillas; //se actualiza el valor y se guarda la posicion a la que se puede mover (no la de ataque)
+                            distanciaEntreCasillasMayor = distanciaEntreCasillas; //se actualiza el valor y se guarda la posicion a la que se puede mover (no la de ataque)
                             posicionResultado = new Vector3(pos.x, pos.y, pos.z);
                         }
                         }

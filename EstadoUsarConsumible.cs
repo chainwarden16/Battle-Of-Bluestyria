@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EstadoUsarConsumible : Estado
 {
-    public EstadoUsarConsumible()
+    public EstadoUsarConsumible(CombatePorTurnos comba) : base(comba)
     {
 
     }
@@ -207,7 +207,7 @@ public class EstadoUsarConsumible : Estado
             GameManager.EliminarPopUp(popUp);
             atacante.GetComponent<Unidad>().SetEstaCaminando(false, animator);
             GameManager.BorrarCasillas();
-            GameManager.TerminarTurnoUnidad(atacante);
+            GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
             GameManager.CerrarInterfazUnidad();
 
         }
@@ -261,7 +261,7 @@ public class EstadoUsarConsumible : Estado
         objetivo = null;
         //EstadoEsperar.SetUnidadSeleccionada(null);
         InvocarMenuAcciones();
-        maquina.SetEstado(new EstadoElegirAccion());
+        maquina.SetEstado(new EstadoElegirAccion(combatePorTurnos));
 
 
     }

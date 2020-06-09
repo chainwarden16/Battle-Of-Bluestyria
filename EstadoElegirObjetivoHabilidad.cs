@@ -60,7 +60,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
     private GameObject botonObjetos;
 
     private GameObject camara;
-    public EstadoElegirObjetivoHabilidad()
+    public EstadoElegirObjetivoHabilidad(CombatePorTurnos comba) : base(comba)
     {
 
     }
@@ -157,7 +157,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         GameManager.EliminarPopUp(popUp);
                         GameManager.BorrarCasillas();
-                        GameManager.TerminarTurnoUnidad(atacante);
+                        GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
 
                     }
                     else
@@ -165,7 +165,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         gm.MostrarMensajePerdidaTurno("No tienes suficientes PS para realizar esta acción.", objetivo);
 
-                        maquina.SetEstado(new EstadoAccionNoPermitida());
+                        maquina.SetEstado(new EstadoAccionNoPermitida(combatePorTurnos));
 
                     }
 
@@ -208,7 +208,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         GameManager.EliminarPopUp(popUp);
                         GameManager.BorrarCasillas();
-                        GameManager.TerminarTurnoUnidad(atacante);
+                        GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
 
                     }
                     else
@@ -216,7 +216,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         gm.MostrarMensajePerdidaTurno("No tienes suficientes PS para realizar esta acción.", objetivo);
 
-                        maquina.SetEstado(new EstadoAccionNoPermitida());
+                        maquina.SetEstado(new EstadoAccionNoPermitida(combatePorTurnos));
 
                     }
 
@@ -255,7 +255,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         GameManager.EliminarPopUp(popUp);
                         GameManager.BorrarCasillas();
-                        GameManager.TerminarTurnoUnidad(atacante);
+                        GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
 
                     }
                     else
@@ -263,7 +263,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         gm.MostrarMensajePerdidaTurno("No tienes suficientes PS para realizar esta acción.", objetivo);
 
-                        maquina.SetEstado(new EstadoAccionNoPermitida());
+                        maquina.SetEstado(new EstadoAccionNoPermitida(combatePorTurnos));
 
                     }
 
@@ -304,7 +304,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         GameManager.EliminarPopUp(popUp);
                         GameManager.BorrarCasillas();
-                        GameManager.TerminarTurnoUnidad(atacante);
+                        GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
 
                     }
                     else
@@ -312,7 +312,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         gm.MostrarMensajePerdidaTurno("No tienes suficientes PS para realizar esta acción.", objetivo);
 
-                        maquina.SetEstado(new EstadoAccionNoPermitida());
+                        maquina.SetEstado(new EstadoAccionNoPermitida(combatePorTurnos));
 
                     }
 
@@ -352,7 +352,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         GameManager.EliminarPopUp(popUp);
                         GameManager.BorrarCasillas();
-                        GameManager.TerminarTurnoUnidad(atacante);
+                        GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
 
                     }
                     else
@@ -360,7 +360,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         gm.MostrarMensajePerdidaTurno("No tienes suficientes PS para realizar esta acción.", objetivo);
 
-                        maquina.SetEstado(new EstadoAccionNoPermitida());
+                        maquina.SetEstado(new EstadoAccionNoPermitida(combatePorTurnos));
 
                     }
 
@@ -400,7 +400,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         GameManager.EliminarPopUp(popUp);
                         GameManager.BorrarCasillas();
-                        GameManager.TerminarTurnoUnidad(atacante);
+                        GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
 
                     }
                     else
@@ -408,7 +408,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         gm.MostrarMensajePerdidaTurno("No tienes suficientes PS para realizar esta acción.", objetivo);
 
-                        maquina.SetEstado(new EstadoAccionNoPermitida());
+                        maquina.SetEstado(new EstadoAccionNoPermitida(combatePorTurnos));
 
                     }
 
@@ -449,7 +449,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         GameManager.EliminarPopUp(popUp);
                         GameManager.BorrarCasillas();
-                        GameManager.TerminarTurnoUnidad(atacante);
+                        GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
 
                     }
                     else
@@ -457,7 +457,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         gm.MostrarMensajePerdidaTurno("No tienes suficientes PS para realizar esta acción.", objetivo);
 
-                        maquina.SetEstado(new EstadoAccionNoPermitida());
+                        maquina.SetEstado(new EstadoAccionNoPermitida(combatePorTurnos));
 
                     }
 
@@ -494,7 +494,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         GameManager.InflingirBuff(objetivo, 3, 2);
                         GameManager.BorrarCasillas();
-                        GameManager.TerminarTurnoUnidad(atacante);
+                        GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
                     }
 
                     //TODO: mensaje de aviso de perdida de turno para cuando no se pueda realizar esta accion
@@ -503,7 +503,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
                     {
 
                         gm.MostrarMensajePerdidaTurno("No tuvo ningún efecto...", objetivo);
-                        maquina.SetEstado(new EstadoPerdidaTurno());
+                        maquina.SetEstado(new EstadoPerdidaTurno(combatePorTurnos));
                     }
 
 
@@ -546,9 +546,9 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                             atacante.GetComponent<Clase>().SetPSAct(atacante.GetComponent<Clase>().GetPSAct() - hab.GetCoste());
                             GameManager.BorrarCasillas();
-                            GameManager.TerminarTurnoUnidad(atacante);
+                            GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
 
-                            //MaquinaDeEstados.SetEstado(new EstadoEsperar());
+                            //MaquinaDeEstados.SetEstado(new EstadoEsperar(combatePorTurnos));
                         }
 
                         //TODO: mensaje de aviso de perdida de turno para cuando no se pueda realizar esta accion
@@ -557,7 +557,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
                         {
 
                             gm.MostrarMensajePerdidaTurno("No tuvo ningún efecto...", objetivo);
-                            maquina.SetEstado(new EstadoPerdidaTurno());
+                            maquina.SetEstado(new EstadoPerdidaTurno(combatePorTurnos));
 
                         }
 
@@ -567,7 +567,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         gm.MostrarMensajePerdidaTurno("No tienes suficientes PS para realizar esta acción.", objetivo);
 
-                        maquina.SetEstado(new EstadoAccionNoPermitida());
+                        maquina.SetEstado(new EstadoAccionNoPermitida(combatePorTurnos));
 
                     }
 
@@ -610,7 +610,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                             atacante.GetComponent<Clase>().SetPSAct(atacante.GetComponent<Clase>().GetPSAct() - hab.GetCoste());
                             GameManager.BorrarCasillas();
-                            GameManager.TerminarTurnoUnidad(atacante);
+                            GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
 
                             
                         }
@@ -619,7 +619,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
                         {
 
                             gm.MostrarMensajePerdidaTurno("No tuvo ningún efecto...", objetivo);
-                            maquina.SetEstado(new EstadoPerdidaTurno());
+                            maquina.SetEstado(new EstadoPerdidaTurno(combatePorTurnos));
 
                         }
 
@@ -629,7 +629,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         gm.MostrarMensajePerdidaTurno("No tienes suficientes PS para realizar esta acción.", objetivo);
 
-                        maquina.SetEstado(new EstadoAccionNoPermitida());
+                        maquina.SetEstado(new EstadoAccionNoPermitida(combatePorTurnos));
 
                     }
                     break;
@@ -671,9 +671,9 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                             atacante.GetComponent<Clase>().SetPSAct(atacante.GetComponent<Clase>().GetPSAct() - hab.GetCoste());
                             GameManager.BorrarCasillas();
-                            GameManager.TerminarTurnoUnidad(atacante);
+                            GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
 
-                            //MaquinaDeEstados.SetEstado(new EstadoEsperar());
+                            //MaquinaDeEstados.SetEstado(new EstadoEsperar(combatePorTurnos));
                         }
 
                         //TODO: mensaje de aviso de perdida de turno para cuando no se pueda realizar esta accion
@@ -682,7 +682,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
                         {
 
                             gm.MostrarMensajePerdidaTurno("No tuvo ningún efecto...", objetivo);
-                            maquina.SetEstado(new EstadoPerdidaTurno());
+                            maquina.SetEstado(new EstadoPerdidaTurno(combatePorTurnos));
 
                         }
 
@@ -692,7 +692,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         gm.MostrarMensajePerdidaTurno("No tienes suficientes PS para realizar esta acción.", objetivo);
 
-                        maquina.SetEstado(new EstadoAccionNoPermitida());
+                        maquina.SetEstado(new EstadoAccionNoPermitida(combatePorTurnos));
 
                     }
                     break;
@@ -734,7 +734,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                             atacante.GetComponent<Clase>().SetPSAct(atacante.GetComponent<Clase>().GetPSAct() - hab.GetCoste());
                             GameManager.BorrarCasillas();
-                            GameManager.TerminarTurnoUnidad(atacante);
+                            GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
 
                             
                         }
@@ -745,7 +745,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
                         {
 
                             gm.MostrarMensajePerdidaTurno("No tuvo ningún efecto...", objetivo);
-                            maquina.SetEstado(new EstadoPerdidaTurno());
+                            maquina.SetEstado(new EstadoPerdidaTurno(combatePorTurnos));
 
                         }
 
@@ -755,7 +755,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         gm.MostrarMensajePerdidaTurno("No tienes suficientes PS para realizar esta acción.", objetivo);
 
-                        maquina.SetEstado(new EstadoAccionNoPermitida());
+                        maquina.SetEstado(new EstadoAccionNoPermitida(combatePorTurnos));
 
                     }
                     break;
@@ -790,7 +790,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         GameManager.InflingirBuff(objetivo, 2, 2);
                         GameManager.BorrarCasillas();
-                        GameManager.TerminarTurnoUnidad(atacante);
+                        GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
                     }
 
 
@@ -798,7 +798,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
                     {
 
                         gm.MostrarMensajePerdidaTurno("No tuvo ningún efecto...", objetivo);
-                        maquina.SetEstado(new EstadoPerdidaTurno());
+                        maquina.SetEstado(new EstadoPerdidaTurno(combatePorTurnos));
                     }
 
 
@@ -848,7 +848,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
                     animacionesAtaques.SetInteger("ID", -1);
                     GameManager.EliminarPopUp(popUp);
                     GameManager.BorrarCasillas();
-                    GameManager.TerminarTurnoUnidad(atacante);
+                    GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
 
                     break;
 
@@ -879,14 +879,14 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         animacionesAtaques.SetInteger("ID", -1);
                         GameManager.BorrarCasillas();
-                        GameManager.TerminarTurnoUnidad(atacante);
+                        GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
                     }
 
                     else
                     {
 
                         gm.MostrarMensajePerdidaTurno("No tuvo ningún efecto...", objetivo);
-                        maquina.SetEstado(new EstadoPerdidaTurno());
+                        maquina.SetEstado(new EstadoPerdidaTurno(combatePorTurnos));
                     }
 
 
@@ -918,7 +918,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         animacionesAtaques.SetInteger("ID", -1);
                         GameManager.BorrarCasillas();
-                        GameManager.TerminarTurnoUnidad(atacante);
+                        GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
                     }
 
                     
@@ -927,7 +927,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
                     {
 
                         gm.MostrarMensajePerdidaTurno("No tuvo ningún efecto...", objetivo);
-                        maquina.SetEstado(new EstadoPerdidaTurno());
+                        maquina.SetEstado(new EstadoPerdidaTurno(combatePorTurnos));
                     }
 
                     break;
@@ -957,7 +957,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
 
                         animacionesAtaques.SetInteger("ID", -1);
                         GameManager.BorrarCasillas();
-                        GameManager.TerminarTurnoUnidad(atacante);
+                        GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
                     }
 
                     //TODO: mensaje de aviso de perdida de turno para cuando no se pueda realizar esta accion
@@ -968,7 +968,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
                         gm.MostrarMensajePerdidaTurno("No tuvo ningún efecto...", objetivo);
 
 
-                        maquina.SetEstado(new EstadoPerdidaTurno());
+                        maquina.SetEstado(new EstadoPerdidaTurno(combatePorTurnos));
 
                     }
 
@@ -1007,13 +1007,13 @@ public class EstadoElegirObjetivoHabilidad : Estado
                             clase.SetPSAct(psActuales);
                             objetivo.GetComponent<Unidad>().SetEstaSiendoEscudado(new Tuple<bool, GameObject>(true, atacante));
                             GameManager.BorrarCasillas();
-                            GameManager.TerminarTurnoUnidad(atacante);
+                            GameManager.TerminarTurnoUnidad(atacante, combatePorTurnos);
 
                         }
                         else
                         {
                             gm.MostrarMensajePerdidaTurno("No tuvo ningún efecto...", objetivo);
-                            maquina.SetEstado(new EstadoPerdidaTurno());
+                            maquina.SetEstado(new EstadoPerdidaTurno(combatePorTurnos));
 
                         }
 
@@ -1022,7 +1022,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
                     {
                         gm.MostrarMensajePerdidaTurno("No tienes suficientes PS para realizar esta acción.", objetivo);
 
-                        maquina.SetEstado(new EstadoAccionNoPermitida());
+                        maquina.SetEstado(new EstadoAccionNoPermitida(combatePorTurnos));
 
                     }
 
@@ -1052,7 +1052,7 @@ public class EstadoElegirObjetivoHabilidad : Estado
             atacante = null;
             objetivo = null;
             //EstadoEsperar.SetUnidadSeleccionada(null);
-            maquina.SetEstado(new EstadoElegirAccion());
+            maquina.SetEstado(new EstadoElegirAccion(combatePorTurnos));
 
             yield return new WaitForSeconds(0.01f);
         }

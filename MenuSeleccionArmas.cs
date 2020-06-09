@@ -60,12 +60,12 @@ public class MenuSeleccionArmas : MonoBehaviour
         extra3 = estadistica3.GetComponentInChildren<TextMeshPro>();
         extra4 = estadistica4.GetComponentInChildren<TextMeshPro>();
 
-        for (int numero = 0; numero < tropaTemporal.Count; numero++)
+        for (int numero = 0; numero< tropaTemporal.Count;numero++)
         {
             heroe = GameObject.Find("Heroe" + (numero + 1)).GetComponent<SpriteRenderer>();
             cuadro = GameObject.Find("IconoArma" + (numero + 1)).GetComponent<SpriteRenderer>();
             cuadro.color = new Color(1, 1, 1, 1);
-            arma = GameObject.Find("Arma" + (numero + 1)).GetComponent<SpriteRenderer>();
+            arma = GameObject.Find("Arma"+(numero+1)).GetComponent<SpriteRenderer>();
             estadistica = GameObject.Find("EstadisticaExtra" + (numero + 1)).GetComponent<SpriteRenderer>();
             unidad = arma.GetComponentInChildren<TextMeshProUGUI>();
             extra = estadistica.GetComponentInChildren<TextMeshPro>();
@@ -96,13 +96,13 @@ public class MenuSeleccionArmas : MonoBehaviour
                 heroe.sprite = Resources.Load<Sprite>("Sprites/Menu/Mago-Seleccion");
                 if (armasJugador[numero] == 0)
                 {
-
+                    
                     unidad.text = "Tomo";
                     extra.text = "+ Ataque";
                 }
                 else
                 {
-
+                    
                     unidad.text = "Códex";
                     extra.text = "+ Defensa";
                 }
@@ -115,13 +115,13 @@ public class MenuSeleccionArmas : MonoBehaviour
                 heroe.sprite = Resources.Load<Sprite>("Sprites/Menu/Lancero-Seleccion");
                 if (armasJugador[numero] == 0)
                 {
-
+                    
                     unidad.text = "Lanza";
                     extra.text = "+ Ataque";
                 }
                 else
                 {
-
+                   
                     unidad.text = "Pica";
                     extra.text = "+ Defensa";
                 }
@@ -133,13 +133,13 @@ public class MenuSeleccionArmas : MonoBehaviour
                 cuadro.sprite = Resources.Load<Sprite>("Sprites/Menu/Arma-Baculo");
                 if (armasJugador[numero] == 0)
                 {
-
+                    
                     unidad.text = "Báculo";
                     extra.text = "+ Ataque";
                 }
                 else
                 {
-
+                    
                     unidad.text = "Ángelus";
                     extra.text = "+ Defensa";
                 }
@@ -151,13 +151,13 @@ public class MenuSeleccionArmas : MonoBehaviour
                 cuadro.sprite = Resources.Load<Sprite>("Sprites/Menu/Arma-Arco");
                 if (armasJugador[numero] == 0)
                 {
-
+                    
                     unidad.text = "Arco";
                     extra.text = "+ Ataque";
                 }
                 else
                 {
-
+                    
                     unidad.text = "Platiun";
                     extra.text = "+ Defensa";
                 }
@@ -176,7 +176,7 @@ public class MenuSeleccionArmas : MonoBehaviour
             CambiarUnidadAbajo();
 
         }
-
+        
         else if (Input.GetKeyUp(KeyCode.RightArrow))
         {
             MoverElementosDerecha();
@@ -196,7 +196,7 @@ public class MenuSeleccionArmas : MonoBehaviour
 
     public void MoverElementosDerecha()
     {
-
+        
         //Si el jugador hace click en la flecha derecha, el marco de seleccion y las flechas deben desplazarse, a menos que se encuentren en el último personaje
 
         if (indiceColumna == 1)
@@ -249,19 +249,19 @@ public class MenuSeleccionArmas : MonoBehaviour
     public void MoverElementosIzquierda()
     {
 
-
+       
         //Si el jugador hace click en la flecha izquierda, el marco de seleccion y las flechas deben desplazarse, a menos que se encuentren en el primer personaje
 
         if (indiceColumna == 2)
         {
             if (!audioSource.isPlaying) { cursorSFX = Resources.Load<AudioClip>("Audio/Cursor1"); audioSource.PlayOneShot(cursorSFX, 1f); }
             indiceColumna--;
-            MarcoSeleccion.transform.position = new Vector3(-4.8f, -0.016f, 0);
+            MarcoSeleccion.transform.position = new Vector3(-4.8f,-0.016f,0);
 
-            flechaAbajo.transform.position = new Vector3(-4.74f, -0.67f, 0);
-            flechaDerecha.transform.position = new Vector3(-3.28f, 0, 0);
-            flechaArriba.transform.position = new Vector3(-4.74f, 0.67f, 0);
-            flechaIzquierda.transform.position = new Vector3(-6.34f, 0.01f, 0);
+            flechaAbajo.transform.position = new Vector3(-4.74f,-0.67f,0);
+            flechaDerecha.transform.position = new Vector3(-3.28f, 0,0);
+            flechaArriba.transform.position = new Vector3(-4.74f,0.67f,0);
+            flechaIzquierda.transform.position = new Vector3(-6.34f,0.01f,0);
 
             Color nuevoColor = new Color(1, 1, 1, 0);
             flechaIzquierda.GetComponent<SpriteRenderer>().color = nuevoColor;
@@ -297,7 +297,7 @@ public class MenuSeleccionArmas : MonoBehaviour
         }
 
     }
-
+    
     public void CambiarUnidadAbajo()
     {
 
@@ -324,8 +324,8 @@ public class MenuSeleccionArmas : MonoBehaviour
                         unidad1.text = "Tomo";
                         extra1.text = "+ Ataque";
                     }
-
-
+                    
+                    
                     break;
                 case 2://los datos y el personaje deben pasar a ser los del clérigo, así como el index de la lista
                     cuadro1.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Menu/Arma-Lanza");
@@ -377,7 +377,7 @@ public class MenuSeleccionArmas : MonoBehaviour
             }
         }
 
-        else if (indiceColumna == 2)
+        else if(indiceColumna==2)
         { //el código es casi igual; sólo se contempla que no haya ningún personaje asignado (index con valor = 0)
             if (!audioSource.isPlaying) { cursorSFX = Resources.Load<AudioClip>("Audio/Cursor1"); audioSource.PlayOneShot(cursorSFX, 1f); }
             switch (unidadACambiar)
@@ -501,7 +501,7 @@ public class MenuSeleccionArmas : MonoBehaviour
                     if (armasJugador[2] == 0)
                     {
                         armasJugador[2] = 1;
-                        unidad3.text = "Ángelus";
+                        unidad3.text = "Ángelus"; 
                         extra3.text = "+ Defensa";
                     }
                     else

@@ -5,7 +5,7 @@ using UnityEngine;
 public class MaquinaDeEstados : MonoBehaviour
 {
 
-    private Estado estado;
+    protected Estado estado;
 
     public void SetEstado(Estado estadoNuevo)
     {
@@ -14,11 +14,6 @@ public class MaquinaDeEstados : MonoBehaviour
 
         IniciacionCombate.SetEstado(estadoNuevo);
 
-    }
-
-    public void ComenzarCombate()
-    {
-        SetEstado(new EstadoInicio());
     }
 
     public Estado GetEstado()

@@ -44,7 +44,7 @@ public class EstadoElegirConsumible : Estado
     private GameObject cursorMenu;
 
     private GameObject camara;
-    public EstadoElegirConsumible()
+    public EstadoElegirConsumible(CombatePorTurnos comba) : base(comba)
     {
 
     }
@@ -122,7 +122,7 @@ public class EstadoElegirConsumible : Estado
             CerrarMenuHabilidades();
             GameManager.PosicionesPosiblesUsarConsumible(atacante, consumibleElegido);
             
-            maquina.SetEstado(new EstadoUsarConsumible());
+            maquina.SetEstado(new EstadoUsarConsumible(combatePorTurnos));
             reseteado = false;
             yield return new WaitForSeconds(0.01f);
 
@@ -139,7 +139,7 @@ public class EstadoElegirConsumible : Estado
             atacante = null;
             //EstadoEsperar.SetUnidadSeleccionada(null);
             InvocarMenuAcciones();
-            maquina.SetEstado(new EstadoElegirAccion());
+            maquina.SetEstado(new EstadoElegirAccion(combatePorTurnos));
             reseteado = false;
             yield return new WaitForSeconds(0.01f);
 

@@ -7,7 +7,7 @@ public class EstadoTransicionTurnoJugador : Estado
     // Start is called before the first frame update
 
     
-    public EstadoTransicionTurnoJugador()
+    public EstadoTransicionTurnoJugador(CombatePorTurnos com) : base(com)
     {
 
     }

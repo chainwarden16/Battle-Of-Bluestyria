@@ -111,11 +111,29 @@ public class Horda
             }
         }
 
+
+        /*List<int> genesPadres = new List<int>() { };
+
+        genesPadres.AddRange(padre.genesIndividuo);
+        genesPadres.AddRange(madre.genesIndividuo);
+
+        int contador = 0;
+
+        int indice;
+
+        while (contador < tamanoIndividuo)
+        {
+            indice = numeroAleatorio.Next(0, genesPadres.Count);
+
+            nuevoIndividuo.genesIndividuo.Add(genesPadres[indice]);
+            contador++;
+        }*/
+
         return nuevoIndividuo;
 
     }
 
-    public float DeterminarValorFitnessArmasHorda(List<int> armasJugador)
+    public float DeterminarValorFitnessArmasHorda(List<int> armasJugador, List<int> hordaEnemigaEscogida)
     {
 
         float fitness = 0.0f;

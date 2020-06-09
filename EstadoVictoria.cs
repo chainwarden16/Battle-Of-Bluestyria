@@ -28,7 +28,7 @@ public class EstadoVictoria : Estado
     private static bool fanfarriaVictoria = false;
 
 
-    public EstadoVictoria()
+    public EstadoVictoria(CombatePorTurnos com) : base(com)
     {
 
     }

@@ -43,7 +43,7 @@ public class EstadoHabilidad : Estado
 
     private GameObject camara;
 
-    public EstadoHabilidad()
+    public EstadoHabilidad(CombatePorTurnos comba) : base(comba)
     {
 
     }
@@ -131,7 +131,7 @@ public class EstadoHabilidad : Estado
             }
 
 
-            maquina.SetEstado(new EstadoElegirObjetivoHabilidad());
+            maquina.SetEstado(new EstadoElegirObjetivoHabilidad(combatePorTurnos));
             reseteado = false;
             yield return new WaitForSeconds(0.01f);
 
@@ -147,7 +147,7 @@ public class EstadoHabilidad : Estado
             atacante = null;
             //EstadoEsperar.SetUnidadSeleccionada(null);
             InvocarMenuAcciones();
-            maquina.SetEstado(new EstadoElegirAccion());
+            maquina.SetEstado(new EstadoElegirAccion(combatePorTurnos));
             reseteado = false;
             yield return new WaitForSeconds(0.01f);
 

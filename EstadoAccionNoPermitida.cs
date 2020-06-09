@@ -14,7 +14,7 @@ public class EstadoAccionNoPermitida : Estado
     private AudioSource audioSource;
     private AudioClip cursorSFX;
 
-    public EstadoAccionNoPermitida()
+    public EstadoAccionNoPermitida(CombatePorTurnos comba) : base(comba)
     {
 
     }
@@ -43,7 +43,7 @@ public class EstadoAccionNoPermitida : Estado
             EstadoEsperar.SetUnidadSeleccionada(null);
             EstadoElegirObjetivoHabilidad.SetObjetivo(null);
             atacante = null;
-            maquina.SetEstado(new EstadoEsperar());
+            maquina.SetEstado(new EstadoEsperar(combatePorTurnos));
             yield return null;
         }
 

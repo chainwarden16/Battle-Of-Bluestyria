@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
 
     private static MaquinaDeEstados maquinaDeEstados = IniciacionCombate.GetMaquinaDeEstados();
 
+    private static CombatePorTurnos combatePorTurnos = IniciacionCombate.GetCombateForTurnos();
+
     private List<int> tropaJugador;
 
     private List<int> hordaEnemigo;
@@ -176,12 +178,10 @@ public class GameManager : MonoBehaviour
 
     public void InicializarCombate()
     {
-        popUp = GameObject.Find("NumeroPopUp");
         objetoAnimaciones = GameObject.Find("AnimacionesCombate");
         animacionesAtaques = objetoAnimaciones.GetComponent<Animator>();
         audioSource = GameObject.Find("SFX").GetComponent<AudioSource>();
         camara = GameObject.Find("Main Camera");
-        objetoAnimaciones = GameObject.Find("AnimacionesCombate");
         tropaJugador = TropaEscogida.GetTropa();
 
         //Aquí irían las excepciones, pero estas son costosas y detienen la ejecuión del juego, así que las trataré de otra forma
@@ -249,8 +249,6 @@ public class GameManager : MonoBehaviour
         //Ahora se va a crear la lista de armas para dar a los enemigos. Para ello, debe existir una lista de armas que tenga el jugador, que se selecciona en la escena anterior (después de elegir a los personajes que se quiera usar)
 
         hordaEnemigo = TropaEscogida.GetHordaEnemiga();
-
-        numeroActualGeneraciones = 0;
 
         armasHorda = new AlgoritmoCreacionHordas(rng, tropaJugador, hordaEnemigo);
 
@@ -1538,7 +1536,7 @@ public class GameManager : MonoBehaviour
 
     public static void CurarVidaUnidad(GameObject unidad, int cantidad)
     {
-
+        popUp = GameObject.Find("NumeroPopUp");
 
         int curacion = cantidad;
 
@@ -1579,7 +1577,7 @@ public class GameManager : MonoBehaviour
     public static void CausarDañoUnidad(GameObject unidad, int daño)
     {
 
-
+        popUp = GameObject.Find("NumeroPopUp");
 
 
 
@@ -2035,7 +2033,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public static void TerminarTurnoUnidad(GameObject unidad)
+    public static void TerminarTurnoUnidad(GameObject unidad, CombatePorTurnos combatePorTurnos)
     {
 
 
@@ -2049,7 +2047,7 @@ public class GameManager : MonoBehaviour
 
         CerrarInterfazUnidad();
 
-        maquinaDeEstados.SetEstado(new EstadoEsperar());
+        maquinaDeEstados.SetEstado(new EstadoEsperar(combatePorTurnos));
 
     }
 
@@ -2180,7 +2178,7 @@ public class GameManager : MonoBehaviour
 
     public static void ReproducirAnimacion(int ID, GameObject objetivo)
     {
-
+        objetoAnimaciones = GameObject.Find("AnimacionesCombate");
         objetoAnimaciones.transform.position = objetivo.transform.position;
         animacionesAtaques.SetInteger("ID", ID);
 
